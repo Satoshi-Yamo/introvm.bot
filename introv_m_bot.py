@@ -20,7 +20,7 @@ def authentification(message):
     bot.register_next_step_handler(message, password)
 
 def password(message):
-    if message.text.strip() == '1231':
+    if message.text.strip() == os.getenv('PASSKEY'):
         bot.send_message(message.chat.id, 'Enter todays reminder:')
         bot.register_next_step_handler(message, section)
     else:
@@ -28,8 +28,8 @@ def password(message):
         authentification(message)
 
 def section(message):
-    bot.send_message('@satoscollection', message.text)
-    sent = bot.send_message('@satoscollection', message.text)
+    bot.send_message(os.getenv('CHANNEL_ID'), message.text)
+    sent = bot.send_message(os.getenv('CHANNEL_ID'), message.text)
     global messageid
     messageid = sent.message_id
 
@@ -39,7 +39,7 @@ def path(message):
     bot.register_next_step_handler(message, edit)
 
 def edit(message):
-    bot.edit_message_text(chat_id='@satoscollection', message_id=messageid, text = message.text)
+    bot.edit_message_text(chat_id= os.getenv('CHANNEL_ID'), message_id=messageid, text = message.text)
 
 
 try:
